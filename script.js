@@ -8,6 +8,8 @@ const videocover = document.getElementById("cover-all-video");
 const videoplaypauseAnimate = document.getElementById("video-player-pause-animate");
 const videoplaypauseAnimateIcon  =document.querySelector("#video-pause-icon>i" );
 
+const progressBar = document.getElementById("video-player-progress-bar");
+
 // play
 videoplaybtn.addEventListener("click",function(){
 videoPlay();
@@ -36,4 +38,9 @@ setTimeout(()=>{
     videoplaypauseAnimate.classList.remove("fade-animate")
 },1000)
 }
-
+myVideo.onplay =function(){
+    setInterval(()=>{
+     let widthBar = myVideo.currentTime / myVideo.duration ;
+     progressBar.style.width = `${widthBar *100}%`
+    },50)
+}
