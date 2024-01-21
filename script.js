@@ -8,6 +8,7 @@ const videocover = document.getElementById("cover-all-video");
 const videoplaypauseAnimate = document.getElementById("video-player-pause-animate");
 const videoplaypauseAnimateIcon  =document.querySelector("#video-pause-icon>i" );
 
+const progressBarContainer = document.getElementById("video-player-progress-bar-container");
 const progressBar = document.getElementById("video-player-progress-bar");
 
 // play
@@ -44,3 +45,27 @@ myVideo.onplay =function(){
      progressBar.style.width = `${widthBar *100}%`
     },50)
 }
+progressBarContainer.addEventListener("mousemove", function(e){
+    this.style.height = "0.6em";
+    let mousePositonX = e.clientX;
+    let distanceFromLeft = this.getBoundingClientRect().left;
+    let mousePointerFromLeft = mousePositonX - distanceFromLeft;
+    let progressBarWidth = this.offsetWidth;
+    let calcuteProgressBar = (mousePointerFromLeft / progressBarWidth)*100;
+    this.style.background = ` linear-gradient(to right , #fff 0% ,#fff ${calcuteProgressBar}%,rgb(135,135,135)
+    ${calcuteProgressBar}% ,rgb(135,135,135) 100%)`
+})
+progressBarContainer.addEventListener("mouseleave", function(){
+    this.style.height = ".3em"
+    this.style.background = "";
+})
+progressBarContainer.addEventListener("click", function(e){
+    this.style.height = "0.6em";
+    let mousePositonX = e.clientX;
+    let distanceFromLeft = this.getBoundingClientRect().left;
+    let mousePointerFromLeft = mousePositonX - distanceFromLeft;
+    let progressBarWidth = this.offsetWidth;
+    let calcuteProgressBar = (mousePointerFromLeft / progressBarWidth);
+    myVideo.currentTime = myVideo.duration * calcuteProgressBar;
+    
+})
