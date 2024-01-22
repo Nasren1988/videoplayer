@@ -11,6 +11,11 @@ const videoplaypauseAnimateIcon  =document.querySelector("#video-pause-icon>i" )
 const progressBarContainer = document.getElementById("video-player-progress-bar-container");
 const progressBar = document.getElementById("video-player-progress-bar");
 
+let videoTimePassedMinute = document.getElementById("video-time-passed-minutes");
+let videoTimePassedSecond = document.getElementById("video-time-passed-seconds");
+let videoTimeTotalMinute = document.getElementById("video-time-total-minutes");
+let videoTimeTotalSecond = document.getElementById("video-time-total-seconds");
+
 // play
 videoplaybtn.addEventListener("click",function(){
 videoPlay();
@@ -40,9 +45,13 @@ setTimeout(()=>{
 },1000)
 }
 myVideo.onplay =function(){
+    
     setInterval(()=>{
      let widthBar = myVideo.currentTime / myVideo.duration ;
      progressBar.style.width = `${widthBar *100}%`
+     let result = setTime(parseInt(myVideo.currentTime));
+     videoTimeTotalMinute.innerText=result[0];
+     videoTimePassedSecond.innerText= result[1];
     },50)
 }
 progressBarContainer.addEventListener("mousemove", function(e){
@@ -67,5 +76,20 @@ progressBarContainer.addEventListener("click", function(e){
     let progressBarWidth = this.offsetWidth;
     let calcuteProgressBar = (mousePointerFromLeft / progressBarWidth);
     myVideo.currentTime = myVideo.duration * calcuteProgressBar;
-    
 })
+// set total time 
+window.onload = function(){
+setTimeout(()=>{
+ let result = setTime(parseInt(myVideo.duration))
+videoTimeTotalMinute.innerText = result[0];
+videoTimeTotalSecond.innerText = result[1];
+},500)
+}
+function setTime(secends){
+let min = 0;
+let sec = 0;
+min = parseInt(secends/60);
+sec = parseInt(secends % 60);
+return [min,sec];
+}
+
