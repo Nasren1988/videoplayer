@@ -49,6 +49,7 @@ myVideo.onplay =function(){
     setInterval(()=>{
      let widthBar = myVideo.currentTime / myVideo.duration ;
      progressBar.style.width = `${widthBar *100}%`
+    //  Passed Time
      let result = setTime(parseInt(myVideo.currentTime));
      videoTimeTotalMinute.innerText=result[0];
      videoTimePassedSecond.innerText= result[1];
@@ -92,4 +93,47 @@ min = parseInt(secends/60);
 sec = parseInt(secends % 60);
 return [min,sec];
 }
+// volume 
+const volumeCantainer = document.getElementById("volume-container");
+const volumeBtn = document.getElementById("volume-btn");
+const volumeIcon = document.querySelector("#volume-btn > i");
+const volumeRange = document.getElementById("range-volume");
 
+volumeCantainer.addEventListener("mouseenter", function(){
+    volumeRange.style.display = "block";
+})
+volumeCantainer.addEventListener("mouseleave", function(){
+    volumeRange.style.display = "none";
+})
+volumeRange.addEventListener("input", function(){
+    myVideo.volume = this.value /100;
+    setVolumeIcon();
+
+})
+function setVolumeIcon(){
+    if(myVideo.volume > 0.5){
+        volumeIcon.className = "";
+        volumeIcon.setAttribute("class","fas fa-volume-up");
+    }else if (myVideo.volume <= 0.5 && myVideo.volume > 0.01){
+        volumeIcon.className = "";
+        volumeIcon.setAttribute("class","fas fa-volume-down");
+    }else {
+
+     volumeIcon.className = "";
+        volumeIcon.setAttribute("class"," fas fa-volume-off");
+    }
+}
+volumeIcon.addEventListener("click", function(){
+    if(!myVideo.muted){
+        myVideo.muted = true;
+        volumeIcon.className = "";
+        volumeIcon.setAttribute("class","fas fa-volume-mute");
+        
+    }
+    else{
+        myVideo.muted = false;
+        setVolumeIcon();
+
+        
+    }
+})
