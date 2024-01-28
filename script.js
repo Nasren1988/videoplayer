@@ -39,6 +39,7 @@ if(videoplaybtnIcon.classList.contains("fa-play")){
     videoplaypauseAnimateIcon.classList.remove("fa-pause");
     videoplaypauseAnimateIcon.classList.add("fa-play");
 }
+
 videoplaypauseAnimate.classList.add("fade-animate");
 setTimeout(()=>{
     videoplaypauseAnimate.classList.remove("fade-animate")
@@ -47,13 +48,19 @@ setTimeout(()=>{
 myVideo.onplay =function(){
     
     setInterval(()=>{
-     let widthBar = myVideo.currentTime / myVideo.duration ;
-     progressBar.style.width = `${widthBar *100}%`
-    //  Passed Time
-     let result = setTime(parseInt(myVideo.currentTime));
-     videoTimeTotalMinute.innerText=result[0];
-     videoTimePassedSecond.innerText= result[1];
+    progressBarStyleWidth();
+     timepassed();
+  
     },50)
+}
+function progressBarStyleWidth(){
+    let widthBar = myVideo.currentTime / myVideo.duration ;
+    progressBar.style.width = `${widthBar *100}%`
+}
+function timepassed(){
+    let result = setTime(parseInt(myVideo.currentTime));
+    videoTimeTotalMinute.innerText=result[0];
+    videoTimePassedSecond.innerText= result[1];
 }
 progressBarContainer.addEventListener("mousemove", function(e){
     this.style.height = "0.6em";
@@ -136,4 +143,20 @@ volumeIcon.addEventListener("click", function(){
 
         
     }
+})
+// keys
+window.addEventListener("keydown", function(e){
+switch(e.key){
+    case"ArrowRight":
+    myVideo.currentTime +=5;
+    timepassed();
+    progressBarStyleWidth(myVideo.currentTime / myVideo.duration);
+    break;
+    case"ArrowLeft":
+    myVideo.currentTime -=5;
+    timepassed();
+    progressBarStyleWidth(myVideo.currentTime / myVideo.duration);
+    break;
+
+}
 })
