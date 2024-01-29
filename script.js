@@ -115,8 +115,13 @@ volumeCantainer.addEventListener("mouseleave", function(){
 volumeRange.addEventListener("input", function(){
     myVideo.volume = this.value /100;
     setVolumeIcon();
+    setVolumeRange();
 
 })
+function setVolumeRange(){
+    volumeRange.style.background = `linear-gradient(to right , #e3e3e3 0%, #e3e3e3 ${volumeRange.value}%, 
+        rgb(135,135,135)${volumeRange.value}% ,rgb(135,135,135)100%)`
+}
 function setVolumeIcon(){
     if(myVideo.volume > 0.5){
         volumeIcon.className = "";
@@ -157,6 +162,49 @@ switch(e.key){
     timepassed();
     progressBarStyleWidth(myVideo.currentTime / myVideo.duration);
     break;
+    case"ArrowUp":
+    if(myVideo.volume < 0.9){
+      let vol = myVideo.volume +0.1;
+      vol.toFixed(2);
+      myVideo.volume = vol;
+      setVolumeIcon();
+      setVolumeRange();
+    }else{
+        myVideo.volume = 1;
+    }
+    break;
+    case"ArrowDown":
+    if(myVideo.volume > 0.1){
+        let vol = myVideo.volume - .1;
+        vol.toFixed(2);
+        myVideo.volume = vol;
+        setVolumeIcon();
+        setVolumeRange();
+    }else{
+        myVideo.volume= 0;
 
+    }
+    break;
+    case" ":
+    videoPlay();
+    break;
+    case"Enter":
+    fullScreenFunction(myVideo);
+    break;
 }
 })
+// fullscreen
+const fullScreenIcon = document.querySelector("#video-player-btn-fullscreen > i");
+
+fullScreenIcon.addEventListener("click", function(){
+fullScreenFunction(myVideo);
+})
+function fullScreenFunction(elem){
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+      }
+}
