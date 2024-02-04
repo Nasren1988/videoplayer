@@ -16,6 +16,9 @@ let videoTimePassedSecond = document.getElementById("video-time-passed-seconds")
 let videoTimeTotalMinute = document.getElementById("video-time-total-minutes");
 let videoTimeTotalSecond = document.getElementById("video-time-total-seconds");
 
+const canvas = document.getElementById("canvas");
+const videoBackground = document.getElementById("video-background")
+
 // play
 videoplaybtn.addEventListener("click",function(){
 videoPlay();
@@ -71,10 +74,13 @@ progressBarContainer.addEventListener("mousemove", function(e){
     let calcuteProgressBar = (mousePointerFromLeft / progressBarWidth)*100;
     this.style.background = ` linear-gradient(to right , #fff 0% ,#fff ${calcuteProgressBar}%,rgb(135,135,135)
     ${calcuteProgressBar}% ,rgb(135,135,135) 100%)`
+    canvas.style.display = "block";
+    canvesDrawImage((calcuteProgressBar/ 100) * myVideo.duration);
 })
 progressBarContainer.addEventListener("mouseleave", function(){
     this.style.height = ".3em"
     this.style.background = "";
+    canvas.style.display = "none";
 })
 progressBarContainer.addEventListener("click", function(e){
     this.style.height = "0.6em";
@@ -85,6 +91,13 @@ progressBarContainer.addEventListener("click", function(e){
     let calcuteProgressBar = (mousePointerFromLeft / progressBarWidth);
     myVideo.currentTime = myVideo.duration * calcuteProgressBar;
 })
+// preiew 
+function canvesDrawImage(videosecond){
+    videoBackground.currentTime = videosecond;
+    canvas.width = videoBackground.videoWitdth;
+    canvas.height = videoBackground.videoHeight;
+    canvas.getContext("2d").drawImage(videoBackground,0,0,videoBackground.videoWitdth, videoBackground.videoHeight);
+}
 // set total time 
 window.onload = function(){
 setTimeout(()=>{
