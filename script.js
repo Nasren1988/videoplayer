@@ -221,3 +221,40 @@ function fullScreenFunction(elem){
         elem.msRequestFullscreen();
       }
 }
+// setting
+const settingBtn = document.querySelector("#setting-btn > i");
+const settingBoxContainer = document.getElementById("video-player-settings-box-container");
+const settingRows = document.getElementsByClassName("video-player-settings-row");
+const settingQuliteyContainer = document.getElementById("video-player-settings-qualities-container");
+const videoQulatiyRows = document.getElementsByClassName("video-player-settings-qualities-body-row");
+ let isActivesetting = false;
+
+settingBtn.addEventListener("click", function(){
+if(!isActivesetting){
+    this.style.transform = "rotateZ(30deg)";
+    settingBoxContainer.style.display = "block";
+    isActivesetting = true;
+}else{
+    this.style.transform = "rotateZ(-30deg)";
+    settingBoxContainer.style.display = "none";
+    isActivesetting = false;
+}
+})
+settingRows[1].addEventListener("click", function(){
+    settingBoxContainer.style.display = "none";
+    settingQuliteyContainer.style.display = "block";
+})
+for(let row of videoQulatiyRows ){
+    row.addEventListener("click", function(){
+        settingQuliteyContainer.style.display = "none";
+        let quality = this.querySelector(".video-player-settings-qualities-body-row-items");
+        changeQuality(quality.innerText.replace(/\D/g,""));
+    })
+}
+function changeQuality(q){
+let current = myVideo.currentTime;
+myVideo.setAttribute("src",`./assets/test${q}.mp4`);
+myVideo.currentTime = current;
+isActivesetting = false;
+settingBtn.style.transform = "rotateZ(-30deg)";
+}
